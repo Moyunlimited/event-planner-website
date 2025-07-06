@@ -10,13 +10,13 @@ const ContactSection = () => {
         </p>
 
         <div className="my-4">
-          <p><strong>📞 Phone:</strong> (123) 456-7890</p>
+          <p><strong>📞 Phone:</strong> (786) 3192886</p>
           <p><strong>📍 Location:</strong> Miami, Florida</p>
           <p><strong>📧 Email:</strong> franciscatering@gmail.com</p>
         </div>
 
         <a
-          href="https://wa.me/11234567890"
+          href="https://wa.me/17863192886"
           target="_blank"
           rel="noopener noreferrer"
           className="btn btn-success fw-bold px-4 py-2"

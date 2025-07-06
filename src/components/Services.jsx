@@ -1,7 +1,7 @@
 import React from "react";
 
 const Services = () => {
-  const phoneNumber = "19548579149";
+  const phoneNumber = "17863192886";
 
   const services = [
     {

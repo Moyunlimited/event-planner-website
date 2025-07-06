@@ -58,7 +58,7 @@ const Gallery = () => {
                   <button
                     onClick={() => deleteImage(extractFilename(img))}
                     className="btn btn-sm btn-danger position-absolute"
-                    style={{ top: 10, right: 10, zIndex: 2 }}
+                    style={{ top: 1, right: 12, zIndex: 2 }}
                   >
                     ✖
                   </button>

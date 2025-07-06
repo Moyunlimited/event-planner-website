@@ -9,7 +9,7 @@ const Hero = () => {
           EVENT PLANNER, BUFFET SERVICES, BOXES SURPRISES ETC
         </p>
         <a
-          href="https://wa.me/19548579149?text=Hello,%20I%20am%20interested%20in%20booking%20Francis%20Catering%20for%20an%20event."
+          href="https://wa.me/17863192886?text=Hello,%20I%20am%20interested%20in%20booking%20Francis%20Catering%20for%20an%20event."
           target="_blank"
           rel="noopener noreferrer"
           className="hero-button"
