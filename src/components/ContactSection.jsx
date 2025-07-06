@@ -11,8 +11,8 @@ const ContactSection = () => {
 
         <div className="my-4">
           <p><strong>📞 Phone:</strong> (786) 3192886</p>
-          <p><strong>📍 Location:</strong> Miami, Florida</p>
-          <p><strong>📧 Email:</strong> franciscatering@gmail.com</p>
+          <p><strong>📍 Location:</strong> Naples, Florida</p>
+          <p><strong>📧 Email:</strong> franciscatering1@gmail.com</p>
         </div>
 
         <a
