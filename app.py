@@ -13,8 +13,8 @@ app.config["SESSION_COOKIE_SECURE"] = True  # Only works with HTTPS
 
 # ✅ CORS Config: allow local dev + production
 CORS(app, supports_credentials=True, origins=[
-    "http://localhost:5173",
-    "https://yourdomain.com"
+    "http://localhost:5173",  
+    "https://event-planner-website-one.vercel.app"  
 ])
 
 # Register API
