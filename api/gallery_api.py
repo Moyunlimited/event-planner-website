@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify, session
+from flask_cors import cross_origin
 from werkzeug.utils import secure_filename
 import os
 
@@ -22,6 +23,7 @@ def allowed_file(filename):
 
 # 🔐 Admin Auth Routes
 @gallery_api.route('/api/login', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def login():
     data = request.json
     if data["email"] == ADMIN_CREDENTIALS["email"] and data["password"] == ADMIN_CREDENTIALS["password"]:
@@ -30,16 +32,19 @@ def login():
     return jsonify({ "msg": "Unauthorized" }), 401
 
 @gallery_api.route('/api/logout', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def logout():
     session.pop("admin", None)
     return jsonify({ "msg": "Logged out" })
 
 @gallery_api.route('/api/is_admin', methods=['GET'])
+@cross_origin(supports_credentials=True)
 def is_admin():
     return jsonify({ "admin": session.get("admin", False) })
 
 # 📸 Gallery Image Endpoints
 @gallery_api.route('/api/gallery', methods=['GET'])
+@cross_origin()
 def get_gallery_images():
     try:
         files = os.listdir(UPLOAD_FOLDER)
@@ -49,6 +54,7 @@ def get_gallery_images():
         return jsonify({ "error": str(e) }), 500
 
 @gallery_api.route('/api/gallery/upload', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def upload_image():
     if not session.get("admin"):
         return jsonify({ "error": "Unauthorized" }), 401
@@ -70,6 +76,7 @@ def upload_image():
 
 # 🗑️ DELETE image endpoint for admin
 @gallery_api.route('/api/gallery/delete/<filename>', methods=['DELETE'])
+@cross_origin(supports_credentials=True)
 def delete_image(filename):
     if not session.get("admin"):
         return jsonify({ "error": "Unauthorized" }), 401
@@ -81,14 +88,14 @@ def delete_image(filename):
     else:
         return jsonify({ "error": "File not found" }), 404
 
-
+# 💬 Feedback
 @gallery_api.route('/api/feedback', methods=['POST'])
+@cross_origin()
 def receive_feedback():
     data = request.json
     name = data.get('name')
     message = data.get('message')
 
-    # Optional: Save to a file or database
     try:
         with open("feedback.txt", "a") as f:
             f.write(f"{name}: {message}\n")
@@ -97,6 +104,7 @@ def receive_feedback():
         return jsonify({ "error": str(e) }), 500
 
 @gallery_api.route('/api/feedback', methods=['GET'])
+@cross_origin()
 def get_feedback():
     try:
         with open("feedback.txt", "r") as f:
@@ -111,4 +119,3 @@ def get_feedback():
         return jsonify({ "testimonials": [] }), 200
     except Exception as e:
         return jsonify({ "error": str(e) }), 500
-
