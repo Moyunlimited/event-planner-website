@@ -13,7 +13,7 @@ const GalleryUpload = ({ onUploadSuccess }) => {
     formData.append("file", file);
 
     try {
-      await axios.post(`${API_BASE}/gallery/upload`, formData, {
+      await axios.post(`${API_BASE}/api/gallery/upload`, formData, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
