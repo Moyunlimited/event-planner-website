@@ -4,7 +4,7 @@ const Hero = () => {
   return (
     <section className="hero-section">
       <div className="hero-content">
-        <h1 className="hero-title">FRANCIS CATERING SERVICES</h1>
+        <h1 className="hero-title">FRANCI'S CATERING SERVICES</h1>
         <p className="hero-subtitle ">
           EVENT PLANNER, BUFFET SERVICES, BOXES SURPRISES
         </p>
