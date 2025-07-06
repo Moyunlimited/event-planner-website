@@ -119,3 +119,24 @@ def get_feedback():
         return jsonify({ "testimonials": [] }), 200
     except Exception as e:
         return jsonify({ "error": str(e) }), 500
+
+
+@gallery_api.route('/api/feedback/<int:index>', methods=['DELETE'])
+def delete_feedback(index):
+    if not session.get("admin"):
+        return jsonify({ "error": "Unauthorized" }), 401
+
+    try:
+        with open("feedback.txt", "r") as f:
+            lines = f.readlines()
+
+        if 0 <= index < len(lines):
+            del lines[index]
+            with open("feedback.txt", "w") as f:
+                f.writelines(lines)
+            return jsonify({ "msg": "Deleted" }), 200
+        else:
+            return jsonify({ "error": "Index out of range" }), 400
+
+    except Exception as e:
+        return jsonify({ "error": str(e) }), 500

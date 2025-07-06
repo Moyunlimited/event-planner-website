@@ -12,7 +12,7 @@ const TestimonialForm = ({ onSuccess }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(`${API_BASE}/feedback`, { name, message });
+      await axios.post(`${API_BASE}/api/feedback`, { name, message });
       setSubmitted(true);
       setName("");
       setMessage("");

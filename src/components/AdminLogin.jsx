@@ -6,7 +6,7 @@ const AdminLogin = () => {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    const res = await fetch(`${API_BASE}/login`, {
+    const res = await fetch(`${API_BASE}/api/login`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
