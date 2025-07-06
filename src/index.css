@@ -74,7 +74,7 @@ html, body, #root {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 70vh;
+  height: 80vh;
   padding: 3rem;
   background: url('/images/your-background.jpg') no-repeat center center/cover;
   position: relative;
