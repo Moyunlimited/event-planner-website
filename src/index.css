@@ -1,13 +1,250 @@
-body {
+html, body, #root {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #121212;
+  color: #fff;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+  box-sizing: border-box;
+}
+
+/* 🔝 Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 4.5rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #FFD700;
+}
+
+/* 📱 Mobile Toggle */
+.mobile-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.mobile-toggle span {
+  height: 3px;
+  width: 25px;
+  background-color: white;
+  margin: 4px 0;
+  transition: 0.4s;
+}
+
+/* 🎯 Hero Section */
+.custom-hero {
+  height: 100vh;
+  background: #121212;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 5%;
+}
+
+.hero-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70vh;
+  padding: 3rem;
+  background: url('/images/your-background.jpg') no-repeat center center/cover;
+  position: relative;
+}
+
+.hero-content {
+  flex: 1;
+  color: #fff;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  z-index: 2;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: bold;
+  line-height: 1.2;
+  background: linear-gradient(to right, white, #ccc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-left: 190px;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  margin: 1.2rem 0;
+  font-weight: 500;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  margin-left: 90px;
+}
+
+.hero-button {
+  background: linear-gradient(to right, #ff4500, #ff9900);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-weight: bold;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 10px #ff9900;
+  margin-left: 230px;
+  text-decoration: none;
+}
+
+/* 🖼️ Hero Images */
+.hero-images {
+  display: grid;
+  grid-template-columns: repeat(2, 120px);
+  grid-template-rows: repeat(2, 120px);
+  gap: 7.5rem;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  margin-right: 50px;
+}
+
+.circle-img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+}
+
+/* 🗣️ Testimonials */
+.testimonial-section {
+  padding: 60px 20px;
+  background: #1a1a1a;
+  text-align: center;
+}
+
+.testimonial-title {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  color: #FFA500;
+}
+
+.testimonial-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.testimonial-card {
+  background: #2a2a2a;
+  padding: 25px 30px;
+  border-radius: 10px;
+  max-width: 350px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  color: #fff;
+  font-size: 1rem;
+}
+
+.testimonial-quote {
+  font-style: italic;
+  margin-bottom: 15px;
+}
+
+.testimonial-name {
+  font-weight: bold;
+  color: #FFD700;
+}
+
+/* 📱 Responsive Styles */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 1rem 0;
+    margin-top: 1rem;
+    display: none;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .mobile-toggle {
+    display: flex;
+  }
+
+  .hero-section {
+    flex-direction: column;
+    height: auto;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
+    margin-left: 0;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    margin-left: 0;
+  }
+
+  .hero-button {
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+
+  .hero-images {
+    grid-template-columns: repeat(2, 100px);
+    grid-template-rows: repeat(2, 100px);
+    gap: 1rem;
+    margin: 2rem auto 0 auto;
+  }
+
+  .circle-img {
+    width: 120px;
+    height: 120px;
+  }
+
+  .testimonial-title {
+    font-size: 1.8rem;
+  }
+
+  .testimonial-card {
+    max-width: 90%;
+  }
 }
