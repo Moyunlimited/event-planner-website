@@ -9,7 +9,7 @@ const Gallery = () => {
 
   const fetchGallery = async () => {
     try {
-      const res = await axios.get(`${API_BASE}/gallery`);
+      const res = await axios.get(`${API_BASE}/api/gallery`);
       setImages(res.data.images || []);
     } catch (error) {
       console.error("Error loading gallery:", error);
@@ -18,7 +18,7 @@ const Gallery = () => {
 
   const checkAdmin = async () => {
     try {
-      const res = await axios.get(`${API_BASE}/is_admin`, {
+      const res = await axios.get(`${API_BASE}/api/is_admin`, {
         withCredentials: true,
       });
       setIsAdmin(res.data.admin);
@@ -29,7 +29,7 @@ const Gallery = () => {
 
   const deleteImage = async (filename) => {
     try {
-      await axios.delete(`${API_BASE}/gallery/delete/${filename}`, {
+      await axios.delete(`${API_BASE}/api/gallery/delete/${filename}`, {
         withCredentials: true,
       });
       fetchGallery();

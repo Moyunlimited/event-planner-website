@@ -13,7 +13,7 @@ const Navbar = () => {
 
   const checkAdmin = async () => {
     try {
-      const res = await axios.get(`${API_BASE}/is_admin`, { withCredentials: true });
+      const res = await axios.get(`${API_BASE}/api/is_admin`, { withCredentials: true });
       setIsAdmin(res.data.admin);
     } catch {
       setIsAdmin(false);
@@ -27,7 +27,7 @@ const Navbar = () => {
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        `${API_BASE}/login`,
+        `${API_BASE}/api/login`,
         { email, password },
         { withCredentials: true }
       );
@@ -43,7 +43,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${API_BASE}/logout`, {}, { withCredentials: true });
+      await axios.post(`${API_BASE}/api/logout`, {}, { withCredentials: true });
       setIsAdmin(false);
       window.location.reload();
     } catch (error) {
