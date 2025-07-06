@@ -94,16 +94,15 @@ html, body, #root {
   background: linear-gradient(to right, white, #ccc);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-left: 190px;
+  margin-left: 170px;
 }
 
 .hero-subtitle {
-  font-size: 1.1rem;
-  margin: 1.2rem 0;
+  font-family: 'Playfair Display', serif; /* Example font */
+  font-size: 1.2rem;
   font-weight: 500;
-  color: #fff;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
-  margin-left: 90px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .hero-button {
@@ -115,7 +114,7 @@ html, body, #root {
   color: white;
   cursor: pointer;
   box-shadow: 0 0 10px #ff9900;
-  margin-left: 230px;
+  margin-left: 200px;
   text-decoration: none;
 }
 

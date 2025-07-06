@@ -2,7 +2,7 @@ import { Link } from "react-scroll";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Modal, Button, Form } from "react-bootstrap";
-import API_BASE from "../config"; // Adjust path if needed
+import API_BASE from "../config"; 
 
 const Navbar = () => {
   const [showModal, setShowModal] = useState(false);
@@ -58,7 +58,6 @@ const Navbar = () => {
           <img src="/logo1.png" alt="Francis Catering" style={{ height: "85px" }} />
         </div>
 
-        {/* Mobile Toggle */}
         <div className="mobile-toggle d-md-none" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
           <span className="burger-line" />
           <span className="burger-line" />
@@ -81,7 +80,7 @@ const Navbar = () => {
 
           {!isAdmin ? (
             <li>
-              <button className="mx-3 btn btn-outline-light btn-sm" onClick={() => setShowModal(true)}>
+              <button className="mx-3 btn btn-outline-dark btn-sm" onClick={() => setShowModal(true)}>
                 Admin Login
               </button>
             </li>

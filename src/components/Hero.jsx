@@ -5,8 +5,8 @@ const Hero = () => {
     <section className="hero-section">
       <div className="hero-content">
         <h1 className="hero-title">FRANCIS CATERING SERVICES</h1>
-        <p className="hero-subtitle">
-          EVENT PLANNER, BUFFET SERVICES, BOXES SURPRISES ETC
+        <p className="hero-subtitle ">
+          EVENT PLANNER, BUFFET SERVICES, BOXES SURPRISES
         </p>
         <a
           href="https://wa.me/17863192886?text=Hello,%20I%20am%20interested%20in%20booking%20Francis%20Catering%20for%20an%20event."
