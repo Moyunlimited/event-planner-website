@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import API_BASE from "../config"; // adjust path as needed
 
 const GalleryUpload = ({ onUploadSuccess }) => {
   const [file, setFile] = useState(null);
@@ -12,7 +13,7 @@ const GalleryUpload = ({ onUploadSuccess }) => {
     formData.append("file", file);
 
     try {
-      await axios.post("/api/gallery/upload", formData, {
+      await axios.post(`${API_BASE}/gallery/upload`, formData, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",

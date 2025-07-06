@@ -2,6 +2,7 @@ import { Link } from "react-scroll";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Modal, Button, Form } from "react-bootstrap";
+import API_BASE from "../config"; // Adjust path if needed
 
 const Navbar = () => {
   const [showModal, setShowModal] = useState(false);
@@ -10,17 +11,23 @@ const Navbar = () => {
   const [password, setPassword] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const checkAdmin = async () => {
+    try {
+      const res = await axios.get(`${API_BASE}/is_admin`, { withCredentials: true });
+      setIsAdmin(res.data.admin);
+    } catch {
+      setIsAdmin(false);
+    }
+  };
+
   useEffect(() => {
-    axios
-      .get("/api/is_admin", { withCredentials: true })
-      .then((res) => setIsAdmin(res.data.admin))
-      .catch(() => setIsAdmin(false));
+    checkAdmin();
   }, []);
 
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        "/api/login",
+        `${API_BASE}/login`,
         { email, password },
         { withCredentials: true }
       );
@@ -36,7 +43,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("/api/logout", {}, { withCredentials: true });
+      await axios.post(`${API_BASE}/logout`, {}, { withCredentials: true });
       setIsAdmin(false);
       window.location.reload();
     } catch (error) {
@@ -51,58 +58,36 @@ const Navbar = () => {
           <img src="/logo1.png" alt="Francis Catering" style={{ height: "85px" }} />
         </div>
 
-        {/* Mobile toggle button */}
-        <div
-          className="mobile-toggle d-md-none"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          <span className="burger-line"></span>
-          <span className="burger-line"></span>
-          <span className="burger-line"></span>
+        {/* Mobile Toggle */}
+        <div className="mobile-toggle d-md-none" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          <span className="burger-line" />
+          <span className="burger-line" />
+          <span className="burger-line" />
         </div>
 
         <ul className={`nav-links ${isMobileMenuOpen ? "open" : ""}`}>
-          <li>
-            <Link to="hero" smooth duration={500} onClick={() => setIsMobileMenuOpen(false)}>
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="services" smooth duration={500} onClick={() => setIsMobileMenuOpen(false)}>
-              Services
-            </Link>
-          </li>
-          <li>
-            <Link to="gallery" smooth duration={500} onClick={() => setIsMobileMenuOpen(false)}>
-              Gallery
-            </Link>
-          </li>
-          <li>
-            <Link to="about" smooth duration={500} onClick={() => setIsMobileMenuOpen(false)}>
-              About
-            </Link>
-          </li>
-          <li>
-            <Link to="contact" smooth duration={500} onClick={() => setIsMobileMenuOpen(false)}>
-              Contact
-            </Link>
-          </li>
+          {["hero", "services", "gallery", "about", "contact"].map((section) => (
+            <li key={section}>
+              <Link
+                to={section}
+                smooth
+                duration={500}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {section.charAt(0).toUpperCase() + section.slice(1)}
+              </Link>
+            </li>
+          ))}
 
           {!isAdmin ? (
             <li>
-              <button
-                className="mx-3 btn btn-outline-light btn-sm"
-                onClick={() => setShowModal(true)}
-              >
+              <button className="mx-3 btn btn-outline-light btn-sm" onClick={() => setShowModal(true)}>
                 Admin Login
               </button>
             </li>
           ) : (
             <li>
-              <button
-                className="btn btn-danger btn-sm mx-4"
-                onClick={handleLogout}
-              >
+              <button className="btn btn-danger btn-sm mx-4" onClick={handleLogout}>
                 Logout
               </button>
             </li>
@@ -115,7 +100,6 @@ const Navbar = () => {
         <Modal.Header closeButton className="border-0 pb-0">
           <Modal.Title className="w-100 text-center fs-5">🔐 Admin Login</Modal.Title>
         </Modal.Header>
-
         <Modal.Body className="pt-1">
           <Form>
             <Form.Group controlId="formEmail" className="mb-3">

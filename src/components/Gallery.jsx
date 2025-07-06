@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import GalleryUpload from "./GalleryUpload";
+import API_BASE from "../config";
 
 const Gallery = () => {
   const [images, setImages] = useState([]);
@@ -8,7 +9,7 @@ const Gallery = () => {
 
   const fetchGallery = async () => {
     try {
-      const res = await axios.get("/api/gallery");
+      const res = await axios.get(`${API_BASE}/gallery`);
       setImages(res.data.images || []);
     } catch (error) {
       console.error("Error loading gallery:", error);
@@ -17,7 +18,9 @@ const Gallery = () => {
 
   const checkAdmin = async () => {
     try {
-      const res = await axios.get("/api/is_admin", { withCredentials: true });
+      const res = await axios.get(`${API_BASE}/is_admin`, {
+        withCredentials: true,
+      });
       setIsAdmin(res.data.admin);
     } catch (error) {
       console.error("Error checking admin status:", error);
@@ -26,7 +29,9 @@ const Gallery = () => {
 
   const deleteImage = async (filename) => {
     try {
-      await axios.delete(`/api/gallery/delete/${filename}`, { withCredentials: true });
+      await axios.delete(`${API_BASE}/gallery/delete/${filename}`, {
+        withCredentials: true,
+      });
       fetchGallery();
     } catch (err) {
       alert("Delete failed");
@@ -59,7 +64,7 @@ const Gallery = () => {
                   </button>
                 )}
                 <img
-                  src={`http://localhost:5000${img}`}
+                  src={`${API_BASE.replace("/api", "")}${img}`}
                   alt={`gallery-${i}`}
                   className="img-fluid rounded shadow-sm"
                   style={{ width: "100%", height: "250px", objectFit: "cover" }}
