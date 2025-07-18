@@ -42,6 +42,11 @@ app.register_blueprint(gallery_api)
 def home():
     return "Welcome to the Catering Backend"
 
+# ✅ Ping route for uptime monitoring
+@app.route("/ping", methods=["GET"])
+def ping():
+    return {"message": "pong"}, 200
+
 # ✅ Run app
 if __name__ == "__main__":
     app.run(debug=True)
