@@ -1,39 +1,44 @@
 from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
+from werkzeug.middleware.proxy_fix import ProxyFix
 import os
 
-# 🔐 Load environment variables from .env
+# ✅ Load .env variables
 load_dotenv()
 
-# 📦 Import your unified blueprint
+# ✅ Import blueprint
 from api.gallery_api import gallery_api
 
-# 🛠️ Create app and static folder path
+# ✅ Create app and set static folder
 static_path = os.path.join(os.path.dirname(__file__), "static")
 app = Flask(__name__, static_folder=static_path)
 
-# 🔑 Secret Key for sessions
+# ✅ Secret key from .env
 app.secret_key = os.getenv("SECRET_KEY", "super-secret-key")
 
-# 🔐 Session Cookie Settings (production-ready)
+# ✅ Session cookie config
 app.config["SESSION_COOKIE_SAMESITE"] = "None"
-app.config["SESSION_COOKIE_SECURE"] = True  # Only use True if using HTTPS
+app.config["SESSION_COOKIE_SECURE"] = True  # Required for cross-site cookies
+app.config["SESSION_COOKIE_HTTPONLY"] = True
 
-# 🔗 CORS Setup (Frontend URLs)
+# ✅ Trust proxy headers from Render
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+
+# ✅ CORS config to allow frontend domains
 CORS(app, supports_credentials=True, origins=[
     "http://localhost:5173",
     "https://event-planner-website-one.vercel.app"
 ])
 
-# 📘 Register Blueprint
+# ✅ Register blueprint
 app.register_blueprint(gallery_api)
 
-# ✅ Home route
+# ✅ Root route (optional)
 @app.route("/")
 def home():
     return "Welcome to the Catering Backend"
 
-# ▶️ Run the app
+# ✅ Run the app
 if __name__ == "__main__":
     app.run(debug=True)
