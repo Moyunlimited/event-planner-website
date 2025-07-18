@@ -65,7 +65,7 @@ const Navbar = () => {
         </div>
 
         <ul className={`nav-links ${isMobileMenuOpen ? "open" : ""}`}>
-          {["hero", "services", "gallery", "about", "contact"].map((section) => (
+          {["Home", "services", "gallery", "about", "contact"].map((section) => (
             <li key={section}>
               <Link
                 to={section}
