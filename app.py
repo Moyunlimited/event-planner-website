@@ -1,3 +1,4 @@
+# ✅ This is great and complete if using only gallery_api.py:
 from flask import Flask
 from flask_cors import CORS
 import os
@@ -9,15 +10,15 @@ app.secret_key = os.environ.get("SECRET_KEY", "super-secret-key")
 
 # ✅ Session Cookie Config
 app.config["SESSION_COOKIE_SAMESITE"] = "None"
-app.config["SESSION_COOKIE_SECURE"] = True  # Only works with HTTPS
+app.config["SESSION_COOKIE_SECURE"] = True
 
-# ✅ CORS Config: allow local dev + production
+# ✅ CORS Config
 CORS(app, supports_credentials=True, origins=[
     "http://localhost:5173",  
-    "https://event-planner-website-one.vercel.app"  
+    "https://event-planner-website-one.vercel.app"
 ])
 
-# Register API
+# ✅ Register the single unified API
 app.register_blueprint(gallery_api)
 
 @app.route("/")

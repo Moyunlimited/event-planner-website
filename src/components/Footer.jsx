@@ -11,7 +11,7 @@ const Footer = () => {
           <a href="#contact" className="text-light text-decoration-none">Contact</a>
         </div>
         <div className="small">
-          © {new Date().getFullYear()} MoyTheDev. All rights reserved.
+          © {new Date().getFullYear()} Franci's Catering Services. All rights reserved.
         </div>
       </div>
     </footer>

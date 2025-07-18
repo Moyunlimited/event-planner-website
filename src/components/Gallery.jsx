@@ -7,6 +7,7 @@ const Gallery = () => {
   const [images, setImages] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
 
+  // Fetch gallery from backend
   const fetchGallery = async () => {
     try {
       const res = await axios.get(`${API_BASE}/api/gallery`);
@@ -16,6 +17,7 @@ const Gallery = () => {
     }
   };
 
+  // Check admin session
   const checkAdmin = async () => {
     try {
       const res = await axios.get(`${API_BASE}/api/is_admin`, {
@@ -27,9 +29,10 @@ const Gallery = () => {
     }
   };
 
-  const deleteImage = async (filename) => {
+  // Delete by index
+  const deleteImage = async (index) => {
     try {
-      await axios.delete(`${API_BASE}/api/gallery/delete/${filename}`, {
+      await axios.delete(`${API_BASE}/api/gallery/delete/${index}`, {
         withCredentials: true,
       });
       fetchGallery();
@@ -38,8 +41,6 @@ const Gallery = () => {
       console.error(err);
     }
   };
-
-  const extractFilename = (url) => url.split("/").pop();
 
   useEffect(() => {
     fetchGallery();
@@ -56,7 +57,7 @@ const Gallery = () => {
               <div key={i} className="col-lg-4 col-md-6 col-12 position-relative">
                 {isAdmin && (
                   <button
-                    onClick={() => deleteImage(extractFilename(img))}
+                    onClick={() => deleteImage(i)}
                     className="btn btn-sm btn-danger position-absolute"
                     style={{ top: 1, right: 12, zIndex: 2 }}
                   >
@@ -64,7 +65,7 @@ const Gallery = () => {
                   </button>
                 )}
                 <img
-                  src={`${API_BASE.replace("/api", "")}${img}`}
+                  src={img}
                   alt={`gallery-${i}`}
                   className="img-fluid rounded shadow-sm"
                   style={{ width: "100%", height: "250px", objectFit: "cover" }}
