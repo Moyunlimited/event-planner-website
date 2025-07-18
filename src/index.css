@@ -139,7 +139,14 @@ html, body, #root {
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
 }
 
-/* 🗣️ Testimonials */
+.gallery-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
 .testimonial-section {
   padding: 60px 20px;
   background: #1a1a1a;
