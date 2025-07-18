@@ -36,7 +36,7 @@ function App() {
     <>
       <Navbar />
       <Hero />
-      {isAdmin && <HomepageImageManager />} {/* ✅ Show for Admins Only */}
+      {isAdmin && <HomepageImageManager />} 
       <Services />
       <Gallery />
       <Testimonial />

@@ -7,7 +7,6 @@ const Gallery = () => {
   const [file, setFile] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  // 🔁 Load gallery and check admin
   useEffect(() => {
     fetchImages();
     checkAdmin();

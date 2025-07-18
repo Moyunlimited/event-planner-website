@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import API_BASE from "../config"; // adjust path as needed
+import API_BASE from "../config"; 
 
 const GalleryUpload = ({ onUploadSuccess }) => {
   const [file, setFile] = useState(null);
@@ -19,7 +19,7 @@ const GalleryUpload = ({ onUploadSuccess }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-      onUploadSuccess(); // Refresh gallery
+      onUploadSuccess(); 
       setFile(null);
     } catch (error) {
       alert("Upload failed");

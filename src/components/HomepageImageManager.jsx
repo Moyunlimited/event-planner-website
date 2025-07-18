@@ -18,7 +18,7 @@ const HomepageImageManager = () => {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("index", index); // send the image slot (0 to 3)
+    formData.append("index", index); 
 
     try {
       const res = await axios.post(`${API_BASE}/api/homepage-images`, formData, {
@@ -31,7 +31,6 @@ const HomepageImageManager = () => {
       console.log("Uploaded:", res.data);
       setUploadStatus(`Image ${index + 1} uploaded! ✅`);
 
-      // ✅ Auto-refresh the page to reload hero images
       window.location.reload();
     } catch (err) {
       console.error(err);

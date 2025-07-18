@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import API_BASE from "../config"; // make sure path is correct
+import API_BASE from "../config"; 
 
 const TestimonialForm = ({ onSuccess }) => {
   const [name, setName] = useState("");

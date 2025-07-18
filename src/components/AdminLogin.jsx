@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import API_BASE from "../config"; // Make sure this points to your backend
+import API_BASE from "../config"; 
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -9,7 +9,7 @@ const AdminLogin = () => {
     try {
       const res = await fetch(`${API_BASE}/api/login`, {
         method: "POST",
-        credentials: "include", // ✅ Required for session cookies
+        credentials: "include", 
         headers: {
           "Content-Type": "application/json",
         },
@@ -17,7 +17,6 @@ const AdminLogin = () => {
       });
 
       if (res.ok) {
-        // Optionally show success, or redirect/reload
         window.location.reload();
       } else {
         const err = await res.json();

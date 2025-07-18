@@ -6,7 +6,6 @@ const AdminTestimonials = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  // Load testimonials
   const fetchTestimonials = async () => {
     try {
       const res = await axios.get(`${API_BASE}/api/feedback`);
@@ -16,7 +15,6 @@ const AdminTestimonials = () => {
     }
   };
 
-  // Check admin status
   const checkAdmin = async () => {
     try {
       const res = await axios.get(`${API_BASE}/api/is_admin`, {
@@ -28,7 +26,6 @@ const AdminTestimonials = () => {
     }
   };
 
-  // Delete testimonial
   const deleteTestimonial = async (index) => {
     if (!window.confirm("Are you sure you want to delete this testimonial?")) return;
     try {
@@ -42,13 +39,12 @@ const AdminTestimonials = () => {
     }
   };
 
-  // Initial load
   useEffect(() => {
     fetchTestimonials();
     checkAdmin();
   }, []);
 
-  if (!isAdmin) return null; // Only show to admin
+  if (!isAdmin) return null; 
 
   return (
     <section className="py-5 bg-dark text-light">
