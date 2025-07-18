@@ -1,11 +1,12 @@
 from flask import Blueprint, request, jsonify, session
 from flask_cors import cross_origin
-from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash
 from dotenv import load_dotenv
 import os
 import json
+import cloudinary
 import cloudinary.uploader
+import cloudinary.api
 
 load_dotenv()
 
@@ -18,7 +19,6 @@ ADMIN_PASSWORD_HASH = os.getenv("ADMIN_PASSWORD_HASH")
 
 # ===== File paths =====
 HOMEPAGE_JSON = "homepage_images.json"
-GALLERY_JSON = "gallery_images.json"
 FEEDBACK_JSON = "feedback.json"
 SERVICE_IMAGES_JSON = "service_images.json"
 
@@ -38,7 +38,6 @@ def allowed_file(filename):
 
 # ===== Persistent Data Load =====
 homepage_images = load_json(HOMEPAGE_JSON, ["", "", "", ""])
-gallery_urls = load_json(GALLERY_JSON, [])
 service_images = load_json(SERVICE_IMAGES_JSON, {
     "decoration": "",
     "buffet": "",
@@ -73,7 +72,16 @@ def is_admin():
 @gallery_api.route('/api/gallery', methods=['GET'])
 @cross_origin()
 def get_gallery_images():
-    return jsonify({"images": load_json(GALLERY_JSON, [])})
+    try:
+        result = cloudinary.api.resources(
+            type="upload",
+            prefix="gallery",  # adjust or remove if no folder used
+            max_results=100
+        )
+        urls = [item['secure_url'] for item in result['resources']]
+        return jsonify({"images": urls}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @gallery_api.route('/api/gallery/upload', methods=['POST'])
 @cross_origin(supports_credentials=True)
@@ -88,10 +96,8 @@ def upload_gallery_image():
         return jsonify({"error": "No selected file"}), 400
     if file and allowed_file(file.filename):
         try:
-            upload_result = cloudinary.uploader.upload(file)
+            upload_result = cloudinary.uploader.upload(file, folder="gallery")
             image_url = upload_result['secure_url']
-            gallery_urls.append(image_url)
-            save_json(GALLERY_JSON, gallery_urls)
             return jsonify({"msg": "Upload successful", "url": image_url}), 200
         except Exception as e:
             return jsonify({"error": str(e)}), 500
@@ -116,10 +122,6 @@ def delete_gallery_image():
 
         cloudinary.uploader.destroy(full_public_id)
 
-        if image_url in gallery_urls:
-            gallery_urls.remove(image_url)
-            save_json(GALLERY_JSON, gallery_urls)
-
         return jsonify({"msg": "Deleted successfully"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -140,7 +142,7 @@ def upload_homepage_image():
     if file.filename == "":
         return jsonify({"error": "No selected file"}), 400
     try:
-        upload_result = cloudinary.uploader.upload(file)
+        upload_result = cloudinary.uploader.upload(file, folder="homepage")
         image_url = upload_result["secure_url"]
 
         if 0 <= index < 4:
@@ -182,7 +184,7 @@ def upload_service_image():
         return jsonify({"error": "No selected file"}), 400
 
     try:
-        upload_result = cloudinary.uploader.upload(file)
+        upload_result = cloudinary.uploader.upload(file, folder="services")
         image_url = upload_result["secure_url"]
         service_images[section] = image_url
         save_json(SERVICE_IMAGES_JSON, service_images)
