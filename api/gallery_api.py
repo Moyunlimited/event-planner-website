@@ -1,18 +1,20 @@
 from flask import Blueprint, request, jsonify, session
 from flask_cors import cross_origin
-import os
-import cloudinary.uploader
-import json
 from werkzeug.utils import secure_filename
+from werkzeug.security import check_password_hash
+from dotenv import load_dotenv
+import os
+import json
+import cloudinary.uploader
+
+load_dotenv()
 
 gallery_api = Blueprint("gallery_api", __name__)
 
 # ===== Config =====
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp'}
-ADMIN_CREDENTIALS = {
-    "email": "admin@example.com",
-    "password": "admin123"  # ⚠️ Use environment variables in production
-}
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
+ADMIN_PASSWORD_HASH = os.getenv("ADMIN_PASSWORD_HASH")
 
 # ===== File paths =====
 HOMEPAGE_JSON = "homepage_images.json"
@@ -48,7 +50,10 @@ service_images = load_json(SERVICE_IMAGES_JSON, {
 @cross_origin(supports_credentials=True)
 def login():
     data = request.json
-    if data["email"] == ADMIN_CREDENTIALS["email"] and data["password"] == ADMIN_CREDENTIALS["password"]:
+    email = data.get("email")
+    password = data.get("password")
+
+    if email == ADMIN_EMAIL and check_password_hash(ADMIN_PASSWORD_HASH, password):
         session["admin"] = True
         return jsonify({"msg": "Login successful"}), 200
     return jsonify({"msg": "Unauthorized"}), 401
@@ -64,7 +69,7 @@ def logout():
 def is_admin():
     return jsonify({"admin": session.get("admin", False)})
 
-# ===== Gallery Images =====
+# ===== Gallery =====
 @gallery_api.route('/api/gallery', methods=['GET'])
 @cross_origin()
 def get_gallery_images():
@@ -119,7 +124,7 @@ def delete_gallery_image():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# ===== Homepage Hero Images =====
+# ===== Homepage Hero =====
 @gallery_api.route("/api/homepage-images", methods=["POST"])
 @cross_origin(supports_credentials=True)
 def upload_homepage_image():
@@ -152,7 +157,7 @@ def upload_homepage_image():
 def get_homepage_images():
     return jsonify({"images": load_json(HOMEPAGE_JSON, ["", "", "", ""])})
 
-# ===== Service Section Images =====
+# ===== Service Images =====
 @gallery_api.route("/api/service-images", methods=["GET"])
 @cross_origin()
 def get_service_images():
