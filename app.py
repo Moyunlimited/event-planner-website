@@ -19,26 +19,29 @@ app.secret_key = os.getenv("SECRET_KEY", "super-secret-key")
 
 # ✅ Session cookie config
 app.config["SESSION_COOKIE_SAMESITE"] = "None"
-app.config["SESSION_COOKIE_SECURE"] = True  # Required for cross-site cookies
+app.config["SESSION_COOKIE_SECURE"] = True
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 
 # ✅ Trust proxy headers from Render
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
-# ✅ CORS config to allow frontend domains
-CORS(app, supports_credentials=True, origins=[
-    "http://localhost:5173",
-    "https://event-planner-website-one.vercel.app"
-])
+# ✅ CORS config with DELETE method allowed
+CORS(app,
+     supports_credentials=True,
+     origins=[
+         "http://localhost:5173",
+         "https://event-planner-website-one.vercel.app"
+     ],
+     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 
 # ✅ Register blueprint
 app.register_blueprint(gallery_api)
 
-# ✅ Root route (optional)
+# ✅ Root route
 @app.route("/")
 def home():
     return "Welcome to the Catering Backend"
 
-# ✅ Run the app
+# ✅ Run app
 if __name__ == "__main__":
     app.run(debug=True)
