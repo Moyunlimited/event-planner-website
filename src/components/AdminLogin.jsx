@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import API_BASE from "../config"; 
+import API_BASE from "../config"; // Adjust path if needed
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -9,7 +9,8 @@ const AdminLogin = () => {
     try {
       const res = await fetch(`${API_BASE}/api/login`, {
         method: "POST",
-        credentials: "include", 
+        mode: "cors",                // ✅ Cross-origin requests
+        credentials: "include",     // ✅ Include cookies/session
         headers: {
           "Content-Type": "application/json",
         },
