@@ -4,28 +4,28 @@ from dotenv import load_dotenv
 from werkzeug.middleware.proxy_fix import ProxyFix
 import os
 
-# ✅ Load .env variables
+# ✅ Load environment variables from .env
 load_dotenv()
 
 # ✅ Import blueprint
 from api.gallery_api import gallery_api
 
-# ✅ Create app and set static folder
+# ✅ Create Flask app and static folder
 static_path = os.path.join(os.path.dirname(__file__), "static")
 app = Flask(__name__, static_folder=static_path)
 
-# ✅ Secret key from .env
+# ✅ Secret key for session handling
 app.secret_key = os.getenv("SECRET_KEY", "super-secret-key")
 
-# ✅ Session cookie config
+# ✅ Session cookie settings (important for mobile + cross-site)
 app.config["SESSION_COOKIE_SAMESITE"] = "None"
 app.config["SESSION_COOKIE_SECURE"] = True
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 
-# ✅ Trust proxy headers from Render
+# ✅ Trust proxy headers from Render (fixes HTTPS + cookies)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
-# ✅ CORS config with DELETE method allowed
+# ✅ Enable CORS for frontend origin + credentials
 CORS(app,
      supports_credentials=True,
      origins=[
@@ -34,7 +34,13 @@ CORS(app,
      ],
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 
-# ✅ Register blueprint
+# ✅ Ensure credentials header is always returned (for mobile login support)
+@app.after_request
+def add_cors_headers(response):
+    response.headers["Access-Control-Allow-Credentials"] = "true"
+    return response
+
+# ✅ Register gallery + admin API
 app.register_blueprint(gallery_api)
 
 # ✅ Root route
@@ -42,7 +48,7 @@ app.register_blueprint(gallery_api)
 def home():
     return "Welcome to the Catering Backend"
 
-# ✅ Ping route for uptime monitoring
+# ✅ Ping route (used for uptime monitoring)
 @app.route("/ping", methods=["GET"])
 def ping():
     return {"message": "pong"}, 200
