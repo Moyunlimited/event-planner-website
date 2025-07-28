@@ -41,15 +41,18 @@ const Navbar = () => {
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await axios.post(`${API_BASE}/api/logout`, {}, { withCredentials: true });
-      setIsAdmin(false);
-      window.location.reload();
-    } catch (error) {
-      console.error("Logout failed", error);
-    }
-  };
+const handleLogout = async () => {
+  try {
+    await axios.post(`${API_BASE}/api/logout`, {}, {
+      withCredentials: true
+    });
+    setIsAdmin(false);
+    window.location.reload(); // or redirect to home
+  } catch (error) {
+    console.error("Logout failed", error);
+  }
+};
+
 
   return (
     <>
