@@ -1,32 +1,32 @@
-# ✅ app.py (updated with session fix for mobile)
 from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
 from werkzeug.middleware.proxy_fix import ProxyFix
 import os
 
-# ✅ Load .env variables
+# ✅ Load environment variables
 load_dotenv()
 
-# ✅ Import blueprint
+# ✅ Import your route blueprints
 from api.gallery_api import gallery_api
+from api.auth_api import auth_api  # make sure you import this if it's in a separate file
 
-# ✅ Create app and set static folder
+# ✅ Create app
 static_path = os.path.join(os.path.dirname(__file__), "static")
 app = Flask(__name__, static_folder=static_path)
 
-# ✅ Secret key from .env
+# ✅ Secret key for session
 app.secret_key = os.getenv("SECRET_KEY", "super-secret-key")
 
-# ✅ Session cookie config (mobile-friendly)
-app.config["SESSION_COOKIE_SAMESITE"] = "Lax"  # Use "Lax" for mobile compatibility
-app.config["SESSION_COOKIE_SECURE"] = True
+# ✅ Cookie/session configuration (cross-origin mobile-friendly)
+app.config["SESSION_COOKIE_SAMESITE"] = "None"     # ✅ Fix for mobile login
+app.config["SESSION_COOKIE_SECURE"] = True         # ✅ Required for Samesite=None
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 
-# ✅ Trust proxy headers from Render
+# ✅ Ensure proxy headers are trusted (Render specific)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
-# ✅ CORS config with DELETE method allowed
+# ✅ CORS setup
 CORS(app,
      supports_credentials=True,
      origins=[
@@ -35,25 +35,24 @@ CORS(app,
      ],
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 
-# ✅ Register blueprint
+# ✅ Register all blueprints
 app.register_blueprint(gallery_api)
+app.register_blueprint(auth_api)
 
-# ✅ Root route
+# ✅ Routes
 @app.route("/")
 def home():
-    return "Welcome to the Catering Backend"
+    return "🎉 Welcome to the Catering Backend!"
 
-# ✅ Ping route for uptime monitoring
 @app.route("/ping", methods=["GET"])
 def ping():
     return {"message": "pong"}, 200
 
-# ✅ Optional: Debug route for testing session
 @app.route("/debug-session")
 def debug_session():
     from flask import session
     return {"admin": session.get("admin", False)}
 
-# ✅ Run app
+# ✅ Run app (only for local testing)
 if __name__ == "__main__":
     app.run(debug=True)
